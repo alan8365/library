@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "dva";
 import { Layout, Input, Menu, Dropdown, Avatar, Form , Row, Col } from "antd";
-import { LikeOutlined, UserOutlined, LogoutOutlined, SearchOutlined } from '@ant-design/icons';
+import { HeartOutlined, UserOutlined, LogoutOutlined, SearchOutlined } from '@ant-design/icons';
 import "./GlobalLayout.less";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -36,11 +36,11 @@ export default connect(
     // 下拉式選單
     menu = (
       <Menu >
-        <Menu.Item key="1" icon={<LikeOutlined />}>
-          喜好書籍
+        <Menu.Item key="1" icon={<HeartOutlined />}>
+        <a href='/#/favorites'>最愛書籍</a>
         </Menu.Item>
         <Menu.Item key="2" icon={<LogoutOutlined />}>
-          登出
+          <a href='/#/login'>登出</a>
         </Menu.Item>
       </Menu>
     );
@@ -52,7 +52,7 @@ export default connect(
         <Layout className="layout">
 
           <Header className='header'>
-            <div className="logo">圖書資訊系統</div>
+            <div className="logo"><a href='/#/index' style={{color: 'rgb(244 177 184)'}}>圖書資訊系統</a></div>
             <Row gutter={{ lg: 24, md: 12, sm: 6, xs: 3 }} justify="space-between">
 
               <Col lg={22} md={22} sm={20} xs={20} style={{marginTop:15}}>

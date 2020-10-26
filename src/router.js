@@ -5,6 +5,10 @@ import PropTypes from "prop-types";
 
 import AppSwitch from "./routes/AppSwitch";
 import Index from "./routes/Index";
+import Login from "./routes/Login";
+import Register from "./routes/Register";
+import Favorites from "./routes/Favorites";
+import Search from "./routes/Search";
 
 
 const { ConnectedRouter } = routerRedux;
@@ -28,8 +32,12 @@ export default props => {
       <RouterRoot {...props}>
         <Switch>
           <Route path="/" exact render={() => <Redirect to="/index" />} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/register" exact component={Register} />
           <AppSwitch>
             <Route path="/index" exact component={Index} />
+            <Route path="/search" exact component={Search} />
+            <Route path="/favorites" exact component={Favorites} />
           </AppSwitch>
         </Switch>
       </RouterRoot>

@@ -6,7 +6,7 @@ import {
   Card,
   Row
 } from "antd";
-import "./Index.less";
+import "./Favorites.less";
 
 import List from "../components/list";
 
@@ -87,13 +87,13 @@ export default connect(
 
 
       return (
-        <div id="index">
+        <div id="favorites">
           <Space direction="vertical" style={{ width: "100%" }}>
 
             <div className='banner'>
               <div className='bimg'></div>
-              <h2>Library</h2>
-              <h3>學習永無止境</h3>
+              <h2>Favorites</h2>
+              <h3>最愛清單</h3>
             </div>
 
             <Row justify="center">

@@ -16,7 +16,7 @@ export default class Book extends Component {
     render() {
         const {allBooks} = this.props;
 
-        // 取得所有專案並塞資料
+        // 取得所有書籍並塞資料
         let data;
         if(allBooks){
           data = allBooks.map((item,index) =>{

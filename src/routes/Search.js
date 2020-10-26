@@ -6,7 +6,7 @@ import {
   Card,
   Row
 } from "antd";
-import "./Index.less";
+import "./Search.less";
 
 import List from "../components/list";
 
@@ -87,16 +87,18 @@ export default connect(
 
 
       return (
-        <div id="index">
+        <div id="search">
           <Space direction="vertical" style={{ width: "100%" }}>
 
             <div className='banner'>
               <div className='bimg'></div>
-              <h2>Library</h2>
-              <h3>學習永無止境</h3>
+              <h2>Search</h2>
+              <h3>搜尋書籍</h3>
+              
             </div>
 
             <Row justify="center">
+            <h4>以下是搜尋xxx的結果:</h4>
             {
               this.testData
                 ?
