@@ -31,6 +31,7 @@ export default class List extends Component {
                         <Col lg={14} md={16} sm={12} xs={12}>
                           <div className='detail'><span className='span'>書名:</span> {item.name}</div>
                           <div className='detail'><span className='span'>作者:</span> {item.author}</div>
+                          <div className='detail'><span className='span'>isbn:</span> {item.isbn}</div>
                           <div className='detail'><span className='span'>出版社:</span> {item.publishing_house}</div>
                           <div className='detail'><span className='span'>出版日期:</span> {item.date_of_publication}</div>
                           <div className='detail'><span className='span'>簡介:</span> {item.intro}</div>

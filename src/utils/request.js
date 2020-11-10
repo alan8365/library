@@ -1,62 +1,67 @@
+import _ from "lodash";
+import axios from "axios";
+import config from "../config";
 
-import axios from 'axios';
-import { notification } from 'antd';
-
-
-// 全域參數
-axios.defaults.baseURL = `${process.env.API_PROTOCOL}://${process.env.API_HOST}:${process.env.API_PORT}/api/v1/`;
-
-
-// 請求攔截器
-axios.interceptors.request.use((config) => {
-	if(localStorage.getItem('token')){
-		config.headers = { 
-			'Access-Control-Allow-Origin': '*',
-			'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
-			'Access-Control-Max-Age': '86400',
-			'Authorization': `jwt ${localStorage.getItem('token')}`,
-			'Cache-Control':  'no-cache, no-store, must-revalidate, post-check=0, pre-check=0',
-        	'Pragma': 'no-cache',
-        	'Expires': '0'
-		};
-	}else{
-		config.headers = { 
-			'Access-Control-Allow-Origin': '*',
-			'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
-			'Access-Control-Max-Age': '86400',
-			'Cache-Control':  'no-cache, no-store, must-revalidate, post-check=0, pre-check=0',
-        	'Pragma': 'no-cache',
-        	'Expires': '0'
-		};
-	}
-  
-
-	return config;
-}, (error) => {
-	return Promise.reject(error);
+const ax = axios.create({
+  baseURL: config.api,
+  timeout: 60000
 });
 
-// 返回攔截器
-axios.interceptors.response.use((response) => {
-
-	return response;
-}, (error) => {
-	
-	return Promise.reject(error);
-});
-
-export default function request(opt) {
-	// 調用 axios api 
-	return axios(opt)
-		.then((response) => {
-			return { ...response };
-		})
-		.catch((error) => {
-			if(error.response.status === 401){
-				notification.error({ message: '尚未登入', description: '需登入會員才能進行該動作' });
-			}else{
-				notification.error({ message: '請求錯誤', description: error.response.data.message ? error.response.data.message : '請再試一次' });
-			}
-			return error; 
-		});
+function responseData(res) {
+  return res.data;
 }
+
+function checkStatus(res) {
+  if (res.status >= 200 && res.status < 300) {
+    return res;
+  }
+
+  const error = new Error(res.statusText);
+  error.response = res;
+  throw error;
+}
+
+function generateShortCutMethod(_method) {
+  return (_path, _params = {}, _extendOption = {}) => {
+    return call(_path, _.toUpper(_method), _params, _extendOption);
+  };
+}
+
+function call(_path, _method, _params = {}, _extendOption = {}) {
+  let option = {
+    url: _path,
+    method: _method
+  };
+
+  switch (_.toUpper(_method)) {
+    case "PUT":
+    case "POST":
+    case "PATCH":
+      option.data = _params;
+      break;
+    case "GET":
+      option.params = _params;
+      break;
+    default:
+      break;
+  }
+
+  option = {
+    ...option,
+    ..._extendOption
+  };
+
+  return ax
+    .request(option)
+    .then(checkStatus)
+    .then(responseData);
+}
+
+export default {
+  call,
+  get: generateShortCutMethod("GET"),
+  post: generateShortCutMethod("POST"),
+  put: generateShortCutMethod("PUT"),
+  patch: generateShortCutMethod("PATCH"),
+  delete: generateShortCutMethod("DELETE")
+};

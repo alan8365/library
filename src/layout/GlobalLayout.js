@@ -6,22 +6,34 @@ import "./GlobalLayout.less";
 
 const { Header, Content, Footer, Sider } = Layout;
 const mapStateToProps = state => {
-  return {};
+  return {
+    memberInfo: state.auth.memberInfo,
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     goToRoute(payload) {
       dispatch({ type: "global/goToRoute", payload });
-    }
+    },
+    GET_WhoAmI(callback, loading) {
+      dispatch({ type: "auth/GET_WhoAmI" });
+    },
   };
 };
+
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(
   class extends Component {
+
+    
+    componentDidMount = () => {
+      const {GET_WhoAmI} = this.props;
+      GET_WhoAmI( null, (loading) => this.setState({ loading }));
+    }
 
     // 搜尋表單送出
     onFinish = values => {
@@ -46,7 +58,11 @@ export default connect(
     );
 
     render() {
-      const { children, location } = this.props;
+      const { children, memberInfo } = this.props;
+      let data;
+      if (memberInfo){
+        data= memberInfo;
+      }
 
       return (
         <Layout className="layout">
@@ -73,7 +89,7 @@ export default connect(
 
               <Col lg={2} md={2} sm={4} xs={4}>
                 <Dropdown placement="bottomCenter" arrow overlay={this.menu}>
-                  <Avatar style={{ backgroundColor: '#CA8EFF' }} icon={<UserOutlined />} />
+                  <Avatar style={{ backgroundColor: '#CA8EFF' }} >{/**data.name*/}</Avatar>
                 </Dropdown>
               </Col>
 

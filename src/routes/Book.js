@@ -4,9 +4,13 @@ import { connect } from "dva";
 import {
   Space,
   Card,
-  Row
+  Row,
+  Col,
+  Spin,
+  Button
 } from "antd";
-import "./Index.less";
+import { HeartOutlined, SearchOutlined } from '@ant-design/icons';
+import "./Book.less";
 
 import List from "../components/list";
 
@@ -38,7 +42,6 @@ export default connect(
       {
         bookId: '1',
         name: '精通 Python：運用簡單的套件進行現代運算（第二版)',
-        isbn: 'dsfsdf',
         img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
         author: 'Bill Lubanovi',
         publishing_house: '歐萊禮',
@@ -48,7 +51,6 @@ export default connect(
       {
         bookId: 2,
         name: '精通 Python：運用簡單的套件進行現代運算（第二版)',
-        isbn: 'dsfsdf',
         img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
         author: 'Bill Lubanovi',
         publishing_house: '歐萊禮',
@@ -58,7 +60,6 @@ export default connect(
       {
         bookId: 3,
         name: '精通 Python：運用簡單的套件進行現代運算（第二版)',
-        isbn: 'dsfsdf',
         img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
         author: 'Bill Lubanovi',
         publishing_house: '歐萊禮',
@@ -68,7 +69,6 @@ export default connect(
       {
         bookId: 4,
         name: '精通 Python：運用簡單的套件進行現代運算（第二版)',
-        isbn: 'dsfsdf',
         img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
         author: 'Bill Lubanovi',
         publishing_house: '歐萊禮',
@@ -91,24 +91,39 @@ export default connect(
 
 
       return (
-        <div id="index">
+        <div id="book">
           <Space direction="vertical" style={{ width: "100%" }}>
 
-            <div className='banner'>
-              <div className='bimg'></div>
-              <h2>Library</h2>
-              <h3>學習永無止境</h3>
-            </div>
-
             <Row justify="center">
-            {
-              this.testData
-                ?
-                  <List
-                    allBooks={this.testData}
-                  />
-                :<div></div>
-            }
+              {
+                this.testData
+                  ?
+                  this.testData.map(item=>{
+                    <Row>
+                    <Col lg={10} md={8} sm={12} xs={24}>
+                      <img alt={item.name} src={item.img} style={{ width: '200px' }} />
+                    </Col>
+                    <Col lg={14} md={16} sm={12} xs={24}>
+                      <div className='detail'><span className='span'>書名:</span> {item.name}</div>
+                      <div className='detail'><span className='span'>作者:</span> {item.author}</div>
+                      <div className='detail'><span className='span'>isbn:</span> {item.isbn}</div>
+                      <div className='detail'><span className='span'>出版社:</span> {item.publishing_house}</div>
+                      <div className='detail'><span className='span'>出版日期:</span> {item.date_of_publication}</div>
+
+                      <div>
+                        <a href={`/#/book/${item.bookId}`} style={{ margin: '10px' }}><Button icon={<SearchOutlined />}>查看詳細</Button></a>
+                        <Button icon={<HeartOutlined />}>加入最愛書籍</Button>
+                        <Button danger icon={<HeartOutlined />}>取消最愛書籍</Button>
+                      </div>
+                    </Col>
+                    <Col>
+                      <div className='detail'><span className='span'>簡介:</span> {item.intro}</div>
+                    </Col>
+                  </Row>
+                  }) :
+                  <div className="spin">
+                    <Spin />
+                  </div>}
             </Row>
 
 

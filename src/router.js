@@ -9,6 +9,7 @@ import Login from "./routes/Login";
 import Register from "./routes/Register";
 import Favorites from "./routes/Favorites";
 import Search from "./routes/Search";
+import Book from "./routes/Book";
 
 
 const { ConnectedRouter } = routerRedux;
@@ -38,6 +39,7 @@ export default props => {
             <Route path="/index" exact component={Index} />
             <Route path="/search" exact component={Search} />
             <Route path="/favorites" exact component={Favorites} />
+            <Route path="/book" exact component={Book} />
           </AppSwitch>
         </Switch>
       </RouterRoot>

@@ -5,14 +5,15 @@ import "./Layout.less";
 
 const { Content, Footer } = Layout;
 const mapStateToProps = state => {
-  return {};
+  return {
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     goToRoute(payload) {
       dispatch({ type: "global/goToRoute", payload });
-    }
+    },
   };
 };
 
@@ -22,19 +23,12 @@ export default connect(
 )(
   class extends Component {
 
-    // 表單送出
-    onFinish = values => {
-      console.log('Success:', values);
-    };
 
-    // 表單送出失敗
-    onFinishFailed = errorInfo => {
-      console.log('Failed:', errorInfo);
-    };
-
+    componentDidMount = () => {
+    }
 
     render() {
-      const { children, location } = this.props;
+      const { children } = this.props;
 
       return (
         <Layout id="layout" className="bg" style={{backgroundImage: 'url(https://images.wallpapersden.com/image/download/minimal-ship-artwork-purple-background_63194_2048x1152.jpg)',backgroundPosition: 'center'}}>
