@@ -38,3 +38,16 @@ export const GET_Favorite = async (page) => {
 		return e;
 	}
 };
+
+// 取得書籍列表
+export const GET_Book = async (isbn) => {
+	try {
+		const { data } = await request({
+			method: 'get',
+			url: `book/${isbn}`,
+		});
+		return data;
+	} catch (e){
+		return e;
+	}
+};

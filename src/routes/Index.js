@@ -12,17 +12,14 @@ import List from "../components/list";
 
 const mapStateToProps = state => {
   return {
-    query: _.get(state, "data.query", undefined),
+    bookList: state.book.bookList,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    POST_BasicStatistics(payload) {
-      dispatch({ type: "data/POST_BasicStatistics", payload });
-    },
-    SET_Query(payload) {
-      dispatch({ type: "data/SET_Query", payload });
+    GET_List( payload, callback, loading) {
+      dispatch({ type: "book/GET_List", payload, callback , loading});
     },
   };
 };
@@ -32,6 +29,10 @@ export default connect(
   mapDispatchToProps
 )(
   class extends Component {
+    state = {
+      perPage: 1,
+      loading: false
+    }
 
     // 假資料
     testData = [
@@ -42,7 +43,7 @@ export default connect(
         img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
         author: 'Bill Lubanovi',
         publishing_house: '歐萊禮',
-        date_of_publication: '2020/06/02',
+        publication_date: '2020/06/02',
         intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
       },
       {
@@ -52,7 +53,7 @@ export default connect(
         img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
         author: 'Bill Lubanovi',
         publishing_house: '歐萊禮',
-        date_of_publication: '2020/06/02',
+        publication_date: '2020/06/02',
         intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
       },
       {
@@ -62,7 +63,7 @@ export default connect(
         img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
         author: 'Bill Lubanovi',
         publishing_house: '歐萊禮',
-        date_of_publication: '2020/06/02',
+        publication_date: '2020/06/02',
         intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
       },
       {
@@ -72,13 +73,17 @@ export default connect(
         img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
         author: 'Bill Lubanovi',
         publishing_house: '歐萊禮',
-        date_of_publication: '2020/06/02',
+        publication_date: '2020/06/02',
         intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
       }
 
     ]
 
     componentDidMount = () => {
+      const {GET_List} = this.props;
+      const {perPage} = this.state;
+       // 取得書籍
+       GET_List( perPage, null, (loading) => this.setState({ loading }));
 
     }
 
@@ -86,9 +91,12 @@ export default connect(
 
 
     render() {
-      const { query } = this.props;
+      const { bookList } = this.props;
 
-
+      if(bookList){
+        // this.testData = bookList;
+        console.log(bookList)
+      }
 
       return (
         <div id="index">

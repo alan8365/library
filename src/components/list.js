@@ -33,13 +33,15 @@ export default class List extends Component {
                           <div className='detail'><span className='span'>作者:</span> {item.author}</div>
                           <div className='detail'><span className='span'>isbn:</span> {item.isbn}</div>
                           <div className='detail'><span className='span'>出版社:</span> {item.publishing_house}</div>
-                          <div className='detail'><span className='span'>出版日期:</span> {item.date_of_publication}</div>
-                          <div className='detail'><span className='span'>簡介:</span> {item.intro}</div>
-                          <div>
-                            <a href={`/#/book/${item.bookId}`} style={{margin: '10px'}}><Button icon={<SearchOutlined />}>查看詳細</Button></a>
-                            <Button icon={<HeartOutlined />}>加入最愛書籍</Button>
-                            <Button danger icon={<HeartOutlined />}>取消最愛書籍</Button>
-                          </div>
+                          <div className='detail'><span className='span'>出版日期:</span> {item.publication_date}</div>
+                          <div className='detail intro' ><span className='span'>簡介:</span> {item.intro}</div>
+                          <Col>
+                            <a href={"/#/book/" + item.isbn}>
+                              <Button type="primary" htmlType="submit">
+                                查看詳細
+                              </Button>
+                            </a>
+                          </Col>
                         </Col>
                       </Row>
                   </div>

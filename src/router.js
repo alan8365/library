@@ -39,7 +39,7 @@ export default props => {
             <Route path="/index" exact component={Index} />
             <Route path="/search" exact component={Search} />
             <Route path="/favorites" exact component={Favorites} />
-            <Route path="/book" exact component={Book} />
+            <Route path="/book/:isbn" exact component={Book} />
           </AppSwitch>
         </Switch>
       </RouterRoot>

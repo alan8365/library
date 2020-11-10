@@ -12,17 +12,14 @@ import List from "../components/list";
 
 const mapStateToProps = state => {
   return {
-    query: _.get(state, "data.query", undefined),
+    favoriteList: state.book.favoriteList,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    POST_BasicStatistics(payload) {
-      dispatch({ type: "data/POST_BasicStatistics", payload });
-    },
-    SET_Query(payload) {
-      dispatch({ type: "data/SET_Query", payload });
+    GET_Favorite( payload, callback, loading) {
+      dispatch({ type: "book/GET_Favorite", payload, callback , loading});
     },
   };
 };
@@ -32,6 +29,10 @@ export default connect(
   mapDispatchToProps
 )(
   class extends Component {
+    state = {
+      loading: false,
+      perPage: 1
+    }
 
     // 假資料
     testData = [
@@ -41,7 +42,7 @@ export default connect(
         img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
         author: 'Bill Lubanovi',
         publishing_house: '歐萊禮',
-        date_of_publication: '2020/06/02',
+        publication_date: '2020/06/02',
         intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
       },
       {
@@ -50,7 +51,7 @@ export default connect(
         img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
         author: 'Bill Lubanovi',
         publishing_house: '歐萊禮',
-        date_of_publication: '2020/06/02',
+        publication_date: '2020/06/02',
         intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
       },
       {
@@ -59,7 +60,7 @@ export default connect(
         img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
         author: 'Bill Lubanovi',
         publishing_house: '歐萊禮',
-        date_of_publication: '2020/06/02',
+        publication_date: '2020/06/02',
         intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
       },
       {
@@ -68,23 +69,29 @@ export default connect(
         img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
         author: 'Bill Lubanovi',
         publishing_house: '歐萊禮',
-        date_of_publication: '2020/06/02',
+        publication_date: '2020/06/02',
         intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
       }
 
     ]
 
     componentDidMount = () => {
-
+      const {GET_Favorite} = this.props;
+      const {perPage} = this.state;
+       // 取得書籍
+       GET_Favorite( perPage, null, (loading) => this.setState({ loading }));
     }
 
 
 
 
     render() {
-      const { query } = this.props;
+      const { favoriteList } = this.props;
 
-
+      if(favoriteList){
+        // this.testData = bookList;
+        console.log(favoriteList)
+      }
 
       return (
         <div id="favorites">

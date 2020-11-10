@@ -52,6 +52,21 @@ export default {
       }
     },
 
+    * GET_Book({ payload, callback, loading }, { put, call, select }) {
+      try {
+        if (loading) { loading(true); }
+
+        // 取得書籍列表
+        const response = yield call(bookService.GET_Book, payload);
+        yield put({ type: 'SAVE_Book', payload: response });
+  
+        if (loading) { loading(false); }
+        if (callback) { callback(); }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+
 
 
   },
@@ -67,7 +82,14 @@ export default {
     SAVE_FavoriteList(state, { payload }) {
       return {
         ...state,
-        FavoriteList: payload
+        favoriteList: payload
+      };
+    },
+
+    SAVE_Book(state, { payload }) {
+      return {
+        ...state,
+        book: payload
       };
     },
 

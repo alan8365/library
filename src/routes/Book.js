@@ -12,21 +12,20 @@ import {
 import { HeartOutlined, SearchOutlined } from '@ant-design/icons';
 import "./Book.less";
 
-import List from "../components/list";
 
 const mapStateToProps = state => {
   return {
-    query: _.get(state, "data.query", undefined),
+    book: state.book.book,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    POST_BasicStatistics(payload) {
-      dispatch({ type: "data/POST_BasicStatistics", payload });
+    GET_Book( payload, callback, loading) {
+      dispatch({ type: "book/GET_Book", payload, callback , loading});
     },
-    SET_Query(payload) {
-      dispatch({ type: "data/SET_Query", payload });
+    POST_Favorite( payload, callback, loading) {
+      dispatch({ type: "book/POST_Favorite", payload, callback , loading});
     },
   };
 };
@@ -37,58 +36,47 @@ export default connect(
 )(
   class extends Component {
 
-    // 假資料
-    testData = [
-      {
-        bookId: '1',
-        name: '精通 Python：運用簡單的套件進行現代運算（第二版)',
-        img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
-        author: 'Bill Lubanovi',
-        publishing_house: '歐萊禮',
-        date_of_publication: '2020/06/02',
-        intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
-      },
-      {
-        bookId: 2,
-        name: '精通 Python：運用簡單的套件進行現代運算（第二版)',
-        img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
-        author: 'Bill Lubanovi',
-        publishing_house: '歐萊禮',
-        date_of_publication: '2020/06/02',
-        intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
-      },
-      {
-        bookId: 3,
-        name: '精通 Python：運用簡單的套件進行現代運算（第二版)',
-        img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
-        author: 'Bill Lubanovi',
-        publishing_house: '歐萊禮',
-        date_of_publication: '2020/06/02',
-        intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
-      },
-      {
-        bookId: 4,
-        name: '精通 Python：運用簡單的套件進行現代運算（第二版)',
-        img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
-        author: 'Bill Lubanovi',
-        publishing_house: '歐萊禮',
-        date_of_publication: '2020/06/02',
-        intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
-      }
+    state={
+      loading: false
+    }
 
-    ]
+    // 假資料
+    item = {
+      bookId: '1',
+      name: '精通 Python：運用簡單的套件進行現代運算（第二版)',
+      img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
+      author: 'Bill Lubanovi',
+      publishing_house: '歐萊禮',
+      publication_date: '2020/06/02',
+      intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
+    }
+
+
+    // 點擊喜翻
+    favorite = () => {
+      const {POST_Favorite,match} = this.props;
+      const {isbn} = match.params;
+      // 喜翻書籍
+      POST_Favorite( isbn, null, (loading) => this.setState({ loading }));
+    }
 
     componentDidMount = () => {
-
+      const {GET_Book,match} = this.props;
+      const {isbn} = match.params;
+       // 取得書籍
+       GET_Book( isbn, null, (loading) => this.setState({ loading }));
     }
 
 
 
 
     render() {
-      const { query } = this.props;
+      const { book } = this.props;
 
-
+      if(book){
+        // this.testData = bookList;
+        console.log(book)
+      }
 
       return (
         <div id="book">
@@ -96,31 +84,29 @@ export default connect(
 
             <Row justify="center">
               {
-                this.testData
+                this.item
                   ?
-                  this.testData.map(item=>{
                     <Row>
-                    <Col lg={10} md={8} sm={12} xs={24}>
-                      <img alt={item.name} src={item.img} style={{ width: '200px' }} />
+                    <Col lg={8} md={8} sm={12} xs={24}>
+                      <img alt={this.item.name} src={this.item.img} style={{ width: '200px' }} />
                     </Col>
-                    <Col lg={14} md={16} sm={12} xs={24}>
-                      <div className='detail'><span className='span'>書名:</span> {item.name}</div>
-                      <div className='detail'><span className='span'>作者:</span> {item.author}</div>
-                      <div className='detail'><span className='span'>isbn:</span> {item.isbn}</div>
-                      <div className='detail'><span className='span'>出版社:</span> {item.publishing_house}</div>
-                      <div className='detail'><span className='span'>出版日期:</span> {item.date_of_publication}</div>
+                    <Col lg={16} md={16} sm={12} xs={24}>
+                      <div className='detail'><span className='span'>書名:</span> {this.item.name}</div>
+                      <div className='detail'><span className='span'>作者:</span> {this.item.author}</div>
+                      <div className='detail'><span className='span'>isbn:</span> {this.item.isbn}</div>
+                      <div className='detail'><span className='span'>出版社:</span> {this.item.publishing_house}</div>
+                      <div className='detail'><span className='span'>出版日期:</span> {this.item.publication_date}</div>
 
                       <div>
-                        <a href={`/#/book/${item.bookId}`} style={{ margin: '10px' }}><Button icon={<SearchOutlined />}>查看詳細</Button></a>
-                        <Button icon={<HeartOutlined />}>加入最愛書籍</Button>
-                        <Button danger icon={<HeartOutlined />}>取消最愛書籍</Button>
+                        <Button icon={<HeartOutlined />} onClick={this.favorite}>加入最愛書籍</Button>
+                        <Button danger icon={<HeartOutlined />} onClick={this.favorite}>取消最愛書籍</Button>
                       </div>
                     </Col>
-                    <Col>
-                      <div className='detail'><span className='span'>簡介:</span> {item.intro}</div>
+                    <Col style={{marginTop: '20px', padding:'20px'}}>
+                      <div className='detail'><span className='span'>簡介:</span> {this.item.intro}</div>
                     </Col>
                   </Row>
-                  }) :
+                   :
                   <div className="spin">
                     <Spin />
                   </div>}

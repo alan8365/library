@@ -41,7 +41,7 @@ export default connect(
         img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
         author: 'Bill Lubanovi',
         publishing_house: '歐萊禮',
-        date_of_publication: '2020/06/02',
+        publication_date: '2020/06/02',
         intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
       },
       {
@@ -50,7 +50,7 @@ export default connect(
         img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
         author: 'Bill Lubanovi',
         publishing_house: '歐萊禮',
-        date_of_publication: '2020/06/02',
+        publication_date: '2020/06/02',
         intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
       },
       {
@@ -59,7 +59,7 @@ export default connect(
         img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
         author: 'Bill Lubanovi',
         publishing_house: '歐萊禮',
-        date_of_publication: '2020/06/02',
+        publication_date: '2020/06/02',
         intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
       },
       {
@@ -68,7 +68,7 @@ export default connect(
         img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
         author: 'Bill Lubanovi',
         publishing_house: '歐萊禮',
-        date_of_publication: '2020/06/02',
+        publication_date: '2020/06/02',
         intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
       }
 
