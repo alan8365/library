@@ -1,94 +1,130 @@
-import { routerRedux } from 'dva';
-import * as authService from '../services/auth';
 import { message } from "antd";
 
+import {
+  POST_Logout,
+  POST_Login,
+  POST_Register,
+  GET_WhoAmI,
+} from "../services/auth";
+
 export default {
-  namespace: 'auth',
+  namespace: "auth",
   state: {
-    query: []
+    query: [],
   },
   effects: {
-    * POST_Login({ payload, callback, loading }, { put, call, select }) {
+    *POST_Login({ payload, callback, loading }, { put, call, select }) {
       try {
-        if (loading) { loading(true); }
+        if (loading) {
+          loading(true);
+        }
 
         // 登入
-        const response = yield call(authService.POST_Login, payload);
-        yield put({ type: 'SAVE_MemberInfo', payload: response });
-        if(response.code===200){
-          message.success('登入成功');
-          yield put(routerRedux.push(`/`));
+        const response = yield call(POST_Login, payload);
+        yield put({ type: "SAVE_MemberInfo", payload: response });
+        if (response.code === 200) {
+          message.success("登入成功");
+
+          yield put({
+            type: "global/goToRoute",
+            payload: "/",
+          });
         }
 
-        if (loading) { loading(false); }
-        if (callback) { callback(); }
+        if (loading) {
+          loading(false);
+        }
+        if (callback) {
+          callback();
+        }
       } catch (err) {
         console.log(err);
       }
     },
 
-    * POST_Register({ payload, callback, loading }, { put, call, select }) {
+    *POST_Register({ payload, callback, loading }, { put, call, select }) {
       try {
-        if (loading) { loading(true); }
+        if (loading) {
+          loading(true);
+        }
 
         // 註冊
-        const response = yield call(authService.POST_Register, payload);
-        if(response.code===200){
-          message.success('註冊成功，請去登入');
-          yield put(routerRedux.push(`/login`));
+        const response = yield call(POST_Register, payload);
+
+        if (response.code === 200) {
+          message.success("註冊成功，請去登入");
+
+          yield put({
+            type: "global/goToRoute",
+            payload: "/login",
+          });
         }
 
-        if (loading) { loading(false); }
-        if (callback) { callback(); }
+        if (loading) {
+          loading(false);
+        }
+        if (callback) {
+          callback();
+        }
       } catch (err) {
         console.log(err);
       }
     },
 
-    * GET_WhoAmI({  callback, loading }, { put, call, select }) {
+    *GET_WhoAmI({ callback, loading }, { put, call, select }) {
       try {
-        if (loading) { loading(true); }
+        if (loading) {
+          loading(true);
+        }
 
         // 取得個人資訊
-        const response = yield call(authService.GET_WhoAmI);
-        yield put({ type: 'SAVE_MemberInfo', payload: response });
+        const response = yield call(GET_WhoAmI);
+        yield put({ type: "SAVE_MemberInfo", payload: response });
 
-        if (loading) { loading(false); }
-        if (callback) { callback(); }
+        if (loading) {
+          loading(false);
+        }
+        if (callback) {
+          callback();
+        }
       } catch (err) {
         console.log(err);
       }
     },
 
-    * POST_Logout({  callback, loading }, { put, call, select }) {
+    *POST_Logout({ callback, loading }, { put, call, select }) {
       try {
-        if (loading) { loading(true); }
+        if (loading) {
+          loading(true);
+        }
 
         // 登出
-        yield call(authService.POST_Logout);
-        localStorage.removeItem('token');
+        yield call(POST_Logout);
+        localStorage.removeItem("token");
 
         // 導向登入頁面
-				yield put(routerRedux.push('/login'));
+        yield put({
+          type: "global/goToRoute",
+          payload: "/login",
+        });
 
-        if (loading) { loading(false); }
-        if (callback) { callback(); }
+        if (loading) {
+          loading(false);
+        }
+        if (callback) {
+          callback();
+        }
       } catch (err) {
         console.log(err);
       }
     },
-
-
   },
   reducers: {
-
     SAVE_MemberInfo(state, { payload }) {
       return {
         ...state,
-        memberInfo: payload
+        memberInfo: payload,
       };
     },
-
-
-  }
+  },
 };

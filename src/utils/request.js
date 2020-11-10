@@ -1,7 +1,8 @@
 
-import axios from 'axios';
-import { notification } from 'antd';
-
+const ax = axios.create({
+  baseURL: config.api,
+  timeout: 60000,
+});
 
 // 全域參數
 // axios.defaults.baseURL = `${process.env.API_PROTOCOL}://${process.env.API_HOST}:${process.env.API_PORT}/`;
@@ -33,35 +34,37 @@ axios.interceptors.request.use((config) => {
 	}
 
 
-	return config;
-}, (error) => {
-	return Promise.reject(error);
-});
+function call(_path, _method, _params = {}, _extendOption = {}) {
+  let option = {
+    url: _path,
+    method: _method,
+  };
+  switch (_.toUpper(_method)) {
+    case "PUT":
+    case "POST":
+    case "PATCH":
+      option.data = _params;
+      break;
+    case "GET":
+      option.params = _params;
+      break;
+    default:
+      break;
+  }
+  option = {
+    ...option,
+    ..._extendOption,
+  };
 
-// 返回攔截器
-axios.interceptors.response.use((response) => {
-
-	return response;
-}, (error) => {
-
-	return Promise.reject(error);
-});
-
-export default function request(opt) {
-	// 調用 axios api 
-	
-	return axios({
-		...opt, url: `${url}${opt.url}`
-	})
-		.then((response) => {
-			return { ...response };
-		})
-		.catch((error) => {
-			if (error.response.code === 401) {
-				notification.error({ message: '尚未登入', description: '需登入會員才能進行該動作' });
-			} else {
-				notification.error({ message: '發生錯誤', description: error.response.msg ? error.response.msg : '請再試一次' });
-			}
-			return error;
-		});
+  return ax.request(option).then(checkStatus).then(responseData);
 }
+
+export default {
+  call,
+  get: generateShortCutMethod("GET"),
+  post: generateShortCutMethod("POST"),
+  put: generateShortCutMethod("PUT"),
+  patch: generateShortCutMethod("PATCH"),
+  delete: generateShortCutMethod("DELETE"),
+}
+})
