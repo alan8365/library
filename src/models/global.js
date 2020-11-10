@@ -7,14 +7,11 @@ export default {
   effects: {
     *goToRoute({ payload }, { put }) {
       try {
-        yield [
-          put({ type: "machine/RESET_All" }),
-          put(routerRedux.push(payload))
-        ];
+        yield put(routerRedux.push(payload));
       } catch (error) {
         console.log(error);
       }
-    }
+    },
   },
-  reducers: {}
+  reducers: {},
 };

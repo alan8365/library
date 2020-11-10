@@ -4,7 +4,7 @@ import config from "../config";
 
 const ax = axios.create({
   baseURL: config.api,
-  timeout: 60000
+  timeout: 60000,
 });
 
 function responseData(res) {
@@ -30,9 +30,8 @@ function generateShortCutMethod(_method) {
 function call(_path, _method, _params = {}, _extendOption = {}) {
   let option = {
     url: _path,
-    method: _method
+    method: _method,
   };
-
   switch (_.toUpper(_method)) {
     case "PUT":
     case "POST":
@@ -45,16 +44,12 @@ function call(_path, _method, _params = {}, _extendOption = {}) {
     default:
       break;
   }
-
   option = {
     ...option,
-    ..._extendOption
+    ..._extendOption,
   };
 
-  return ax
-    .request(option)
-    .then(checkStatus)
-    .then(responseData);
+  return ax.request(option).then(checkStatus).then(responseData);
 }
 
 export default {
@@ -63,5 +58,5 @@ export default {
   post: generateShortCutMethod("POST"),
   put: generateShortCutMethod("PUT"),
   patch: generateShortCutMethod("PATCH"),
-  delete: generateShortCutMethod("DELETE")
+  delete: generateShortCutMethod("DELETE"),
 };
