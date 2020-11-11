@@ -44,7 +44,7 @@ export default connect(
     onFinish = (values) => {
       // 註冊
       const { POST_Register } = this.props;
-      POST_Register(values, null, (loading) => this.setState({ loading }));
+      POST_Register(values, null, null);
     };
 
     onFinishFailed = (errorInfo) => {

@@ -1,4 +1,5 @@
-import { GET_List, POST_Favorite, GET_Favorite } from "../services/book";
+import { message } from "antd";
+import { GET_List, POST_Favorite, GET_Favorite, GET_Book } from "../services/book";
 
 export default {
   namespace: "book",
@@ -14,7 +15,7 @@ export default {
 
         // 取得書籍列表
         const response = yield call(GET_List, payload);
-        yield put({ type: "SAVE_BookList", payload: response });
+        yield put({ type: "SAVE_BookList", payload: response.data });
 
         if (loading) {
           loading(false);
@@ -34,7 +35,8 @@ export default {
         }
 
         // 喜歡書籍
-        yield call(POST_Favorite, payload);
+        const response = yield call(POST_Favorite, payload);
+        message.success(response.msg);
 
         if (loading) {
           loading(false);
@@ -55,7 +57,7 @@ export default {
 
         // 取得書籍列表
         const response = yield call(GET_Favorite, payload);
-        yield put({ type: "SAVE_FavoriteList", payload: response });
+        yield put({ type: "SAVE_FavoriteList", payload: response.data });
 
         if (loading) {
           loading(false);
@@ -72,9 +74,9 @@ export default {
       try {
         if (loading) { loading(true); }
 
-        // 取得書籍列表
-        const response = yield call(bookService.GET_Book, payload);
-        yield put({ type: 'SAVE_Book', payload: response });
+        // 取得書籍
+        const response = yield call(GET_Book, payload);
+        yield put({ type: 'SAVE_Book', payload: response.data });
   
         if (loading) { loading(false); }
         if (callback) { callback(); }

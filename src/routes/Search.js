@@ -34,45 +34,7 @@ export default connect(
   class extends Component {
 
     // 假資料
-    testData = [
-      {
-        bookId: '1',
-        name: '精通 Python：運用簡單的套件進行現代運算（第二版)',
-        img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
-        author: 'Bill Lubanovi',
-        publishing_house: '歐萊禮',
-        publication_date: '2020/06/02',
-        intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
-      },
-      {
-        bookId: 2,
-        name: '精通 Python：運用簡單的套件進行現代運算（第二版)',
-        img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
-        author: 'Bill Lubanovi',
-        publishing_house: '歐萊禮',
-        publication_date: '2020/06/02',
-        intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
-      },
-      {
-        bookId: 3,
-        name: '精通 Python：運用簡單的套件進行現代運算（第二版)',
-        img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
-        author: 'Bill Lubanovi',
-        publishing_house: '歐萊禮',
-        publication_date: '2020/06/02',
-        intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
-      },
-      {
-        bookId: 4,
-        name: '精通 Python：運用簡單的套件進行現代運算（第二版)',
-        img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
-        author: 'Bill Lubanovi',
-        publishing_house: '歐萊禮',
-        publication_date: '2020/06/02',
-        intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
-      }
-
-    ]
+    testData = [];
 
     componentDidMount = () => {
 
@@ -94,19 +56,19 @@ export default connect(
               <div className='bimg'></div>
               <h2>Search</h2>
               <h3>搜尋書籍</h3>
-              
+
             </div>
 
             <Row justify="center">
-            <h4>以下是搜尋xxx的結果:</h4>
-            {
-              this.testData
-                ?
+              <h4>以下是搜尋xxx的結果:</h4>
+              {
+                this.testData
+                  ?
                   <List
                     allBooks={this.testData}
                   />
-                :<div></div>
-            }
+                  : <div></div>
+              }
             </Row>
 
 

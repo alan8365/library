@@ -17,8 +17,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        POST_Login(payload, callback, loading) {
-            dispatch({ type: 'auth/POST_Login', payload, callback, loading });
+        POST_Login(payload, callback) {
+            dispatch({ type: 'auth/POST_Login', payload, callback });
         },
     };
 };
@@ -53,7 +53,7 @@ export default connect(
             console.log('Success:', values);
             const {POST_Login} = this.props;
             // 登入
-            POST_Login(values, null, (loading) => this.setState({ loading }));
+            POST_Login(values, null);
         };
 
         onFinishFailed = (errorInfo) => {

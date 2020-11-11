@@ -1,44 +1,39 @@
+import _ from "lodash";
+import axios from "axios";
+import config from "../config";
+import { message } from "antd";
 
 const ax = axios.create({
   baseURL: config.api,
-  timeout: 60000,
+  timeout: 60000
 });
 
-// 全域參數
-// axios.defaults.baseURL = `${process.env.API_PROTOCOL}://${process.env.API_HOST}:${process.env.API_PORT}/`;
-const url = process.env.REACT_APP_BASE_URL;
-// axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
+function responseData(res) {
+  return res.data;
+}
 
+function checkStatus(res) {
+  if (res.status >= 200 && res.status < 300) {
+    return res;
+  }
 
-// 請求攔截器
-axios.interceptors.request.use((config) => {
-	if (localStorage.getItem('token')) {
-		config.headers = {
-			// 'Access-Control-Allow-Origin': '*',
-			// 'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
-			// 'Access-Control-Max-Age': '86400',
-			// 'Authorization': `${localStorage.getItem('token')}`,
-			// 'Cache-Control': 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0',
-			// 'Pragma': 'no-cache',
-			// 'Expires': '0'
-		};
-	} else {
-		config.headers = {
-			// 'Access-Control-Allow-Origin': '*',
-			// 'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
-			// 'Access-Control-Max-Age': '86400',
-			// 'Cache-Control': 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0',
-			// 'Pragma': 'no-cache',
-			// 'Expires': '0'
-		};
-	}
+  const error = new Error(res.statusText);
+  error.response = res;
+  throw error;
+}
 
+function generateShortCutMethod(_method) {
+  return (_path, _params = {}, _extendOption = {}) => {
+    return call(_path, _.toUpper(_method), _params, _extendOption);
+  };
+}
 
 function call(_path, _method, _params = {}, _extendOption = {}) {
   let option = {
     url: _path,
-    method: _method,
+    method: _method
   };
+
   switch (_.toUpper(_method)) {
     case "PUT":
     case "POST":
@@ -51,12 +46,24 @@ function call(_path, _method, _params = {}, _extendOption = {}) {
     default:
       break;
   }
+
   option = {
     ...option,
-    ..._extendOption,
+    ..._extendOption
   };
 
-  return ax.request(option).then(checkStatus).then(responseData);
+  return ax
+    .request(option)
+    .then(checkStatus)
+    .then(responseData)
+    .catch((error) => {
+			if(error.response.code === 401){
+				message.error('尚未登入，需登入會員才能進行該動作');
+			}else{
+				message.error(`請求錯誤，${ error.response.data.msg }`);
+			}
+			return error; 
+		});
 }
 
 export default {
@@ -65,6 +72,5 @@ export default {
   post: generateShortCutMethod("POST"),
   put: generateShortCutMethod("PUT"),
   patch: generateShortCutMethod("PATCH"),
-  delete: generateShortCutMethod("DELETE"),
-}
-})
+  delete: generateShortCutMethod("DELETE")
+};

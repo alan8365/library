@@ -35,49 +35,7 @@ export default connect(
     }
 
     // 假資料
-    testData = [
-      {
-        bookId: '1',
-        name: '精通 Python：運用簡單的套件進行現代運算（第二版)',
-        isbn: 'dsfsdf',
-        img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
-        author: 'Bill Lubanovi',
-        publishing_house: '歐萊禮',
-        publication_date: '2020/06/02',
-        intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
-      },
-      {
-        bookId: 2,
-        name: '精通 Python：運用簡單的套件進行現代運算（第二版)',
-        isbn: 'dsfsdf',
-        img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
-        author: 'Bill Lubanovi',
-        publishing_house: '歐萊禮',
-        publication_date: '2020/06/02',
-        intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
-      },
-      {
-        bookId: 3,
-        name: '精通 Python：運用簡單的套件進行現代運算（第二版)',
-        isbn: 'dsfsdf',
-        img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
-        author: 'Bill Lubanovi',
-        publishing_house: '歐萊禮',
-        publication_date: '2020/06/02',
-        intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
-      },
-      {
-        bookId: 4,
-        name: '精通 Python：運用簡單的套件進行現代運算（第二版)',
-        isbn: 'dsfsdf',
-        img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
-        author: 'Bill Lubanovi',
-        publishing_house: '歐萊禮',
-        publication_date: '2020/06/02',
-        intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
-      }
-
-    ]
+    testData = [];
 
     componentDidMount = () => {
       const {GET_List} = this.props;
@@ -94,8 +52,7 @@ export default connect(
       const { bookList } = this.props;
 
       if(bookList){
-        // this.testData = bookList;
-        console.log(bookList)
+        this.testData = bookList.data;
       }
 
       return (

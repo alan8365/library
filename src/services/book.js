@@ -7,12 +7,18 @@ export const GET_List = (page) => {
 
 // 喜歡
 export const POST_Favorite = (isbn) => {
-  return request.post(`/bofavoriteok/${isbn}`);
+  const token = localStorage.getItem("token");
+  return request.post(`/book/favorite/${isbn}`, null, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };
 
 // 取得喜歡列表
 export const GET_Favorite = (page) => {
-  return request.get(`/favorite?page=${page}`, null, {
+  const token = localStorage.getItem("token");
+  return request.get(`/book/favorite?page=${page}`, null, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -22,6 +28,7 @@ export const GET_Favorite = (page) => {
 
 // 取得書籍
 export const GET_Book = (isbn) => {
+  const token = localStorage.getItem("token");
   return request.get(`/book/${isbn}`, null, {
     headers: {
       Authorization: `Bearer ${token}`,

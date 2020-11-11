@@ -3,7 +3,7 @@ import _ from "lodash";
 import { connect } from "dva";
 import {
   Space,
-  Card,
+  Spin,
   Row
 } from "antd";
 import "./Favorites.less";
@@ -18,8 +18,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    GET_Favorite( payload, callback, loading) {
-      dispatch({ type: "book/GET_Favorite", payload, callback , loading});
+    GET_Favorite(payload, callback, loading) {
+      dispatch({ type: "book/GET_Favorite", payload, callback, loading });
     },
   };
 };
@@ -35,51 +35,13 @@ export default connect(
     }
 
     // 假資料
-    testData = [
-      {
-        bookId: '1',
-        name: '精通 Python：運用簡單的套件進行現代運算（第二版)',
-        img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
-        author: 'Bill Lubanovi',
-        publishing_house: '歐萊禮',
-        publication_date: '2020/06/02',
-        intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
-      },
-      {
-        bookId: 2,
-        name: '精通 Python：運用簡單的套件進行現代運算（第二版)',
-        img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
-        author: 'Bill Lubanovi',
-        publishing_house: '歐萊禮',
-        publication_date: '2020/06/02',
-        intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
-      },
-      {
-        bookId: 3,
-        name: '精通 Python：運用簡單的套件進行現代運算（第二版)',
-        img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
-        author: 'Bill Lubanovi',
-        publishing_house: '歐萊禮',
-        publication_date: '2020/06/02',
-        intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
-      },
-      {
-        bookId: 4,
-        name: '精通 Python：運用簡單的套件進行現代運算（第二版)',
-        img: 'https://img3.momoshop.com.tw/goodsimg/0007/743/816/7743816_R.jpg?t=1590486433',
-        author: 'Bill Lubanovi',
-        publishing_house: '歐萊禮',
-        publication_date: '2020/06/02',
-        intro: '簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介簡介'
-      }
-
-    ]
+    testData = [];
 
     componentDidMount = () => {
-      const {GET_Favorite} = this.props;
-      const {perPage} = this.state;
-       // 取得書籍
-       GET_Favorite( perPage, null, (loading) => this.setState({ loading }));
+      const { GET_Favorite } = this.props;
+      const { perPage } = this.state;
+      // 取得書籍
+      GET_Favorite(perPage, null, (loading) => this.setState({ loading }));
     }
 
 
@@ -87,10 +49,10 @@ export default connect(
 
     render() {
       const { favoriteList } = this.props;
+      const { loading } = this.props;
 
-      if(favoriteList){
-        // this.testData = bookList;
-        console.log(favoriteList)
+      if (favoriteList) {
+        this.testData = favoriteList.data;
       }
 
       return (
@@ -104,14 +66,16 @@ export default connect(
             </div>
 
             <Row justify="center">
-            {
-              this.testData
-                ?
+              {
+                !loading
+                  ?
                   <List
                     allBooks={this.testData}
                   />
-                :<div></div>
-            }
+                  : <div className="spin">
+                    <Spin />
+                  </div>
+              }
             </Row>
 
 

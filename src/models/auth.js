@@ -1,5 +1,5 @@
 import { message } from "antd";
-
+import { setToken, delToken } from '../utils/localstorage';
 import {
   POST_Logout,
   POST_Login,
@@ -24,6 +24,7 @@ export default {
         yield put({ type: "SAVE_MemberInfo", payload: response });
         if (response.code === 200) {
           message.success("登入成功");
+          setToken(response.data.access_token)
 
           yield put({
             type: "global/goToRoute",
@@ -79,7 +80,7 @@ export default {
 
         // 取得個人資訊
         const response = yield call(GET_WhoAmI);
-        yield put({ type: "SAVE_MemberInfo", payload: response });
+        yield put({ type: "SAVE_MemberInfo", payload: response.data });
 
         if (loading) {
           loading(false);
@@ -100,7 +101,7 @@ export default {
 
         // 登出
         yield call(POST_Logout);
-        localStorage.removeItem("token");
+        delToken();
 
         // 導向登入頁面
         yield put({
