@@ -38,6 +38,7 @@ export default {
         const response = yield call(POST_Favorite, payload);
         message.success(response.msg);
 
+
         if (loading) {
           loading(false);
         }

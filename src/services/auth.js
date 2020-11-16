@@ -14,7 +14,6 @@ export const POST_Register = (payload) => {
 // 取得個人資料
 export const GET_WhoAmI = () => {
   const token = localStorage.getItem("token");
-  console.log(token)
   return request.get("/auth/whoAmI", null, {
     headers: {
       Authorization: `Bearer ${token}`,

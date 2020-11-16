@@ -100,7 +100,7 @@ export default {
         }
 
         // 登出
-        yield call(POST_Logout);
+        // yield call(POST_Logout);
         delToken();
 
         // 導向登入頁面

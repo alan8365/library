@@ -47,10 +47,12 @@ export default connect(
 
     // 點擊喜翻
     favorite = () => {
-      const { POST_Favorite, match } = this.props;
+      const { POST_Favorite, match, GET_Book } = this.props;
       const { isbn } = match.params;
       // 喜翻書籍
       POST_Favorite(isbn, null, (loading) => this.setState({ loading }));
+      // 取得書籍
+      GET_Book(isbn, null, (loading) => this.setState({ loading }));
     }
 
     componentDidMount = () => {
@@ -66,10 +68,29 @@ export default connect(
     render() {
       const { loading } = this.state;
       const { book } = this.props;
-
+      let data;
       if (book) {
-        this.testData = book.detail;
-        this.isLike = book.isLike;
+        data = 
+          <Row>
+            <Col lg={8} md={8} sm={12} xs={24}>
+              <img alt={book.detail.title} src={book.detail.img_src} style={{ width: '200px' }} />
+            </Col>
+            <Col lg={16} md={16} sm={12} xs={24}>
+              <div className='detail'><span className='span'>書名:</span> {book.detail.title}</div>
+              <div className='detail'><span className='span'>作者:</span> {book.detail.author}</div>
+              <div className='detail'><span className='span'>isbn:</span> {book.detail.isbn}</div>
+              <div className='detail'><span className='span'>出版社:</span> {book.detail.publisher}</div>
+              <div className='detail'><span className='span'>出版日期:</span> {book.detail.publication_date}</div>
+
+              <div>
+                <Button className={book.isLike ?'isLike':'isUnLike'} icon={book.isLike ? <SmileOutlined rotate={180} /> : <SmileOutlined />} onClick={this.favorite}>{book.isLike ? '取消最愛書籍' : '加入最愛書籍'}</Button>
+              </div>
+            </Col>
+            <Col style={{ marginTop: '20px', padding: '20px' }}>
+              <div className='detail'><span className='span'>簡介:</span> {book.detail.summary}</div>
+            </Col>
+          </Row>
+        
       }
 
       return (
@@ -77,37 +98,9 @@ export default connect(
           <Space direction="vertical" style={{ width: "100%" }}>
 
             <Row justify="center">
-              {
-                !loading
-                  ?
-                  <Row>
-                    <Col lg={8} md={8} sm={12} xs={24}>
-                      <img alt={this.testData.title} src={this.testData.img_src} style={{ width: '200px' }} />
-                    </Col>
-                    <Col lg={16} md={16} sm={12} xs={24}>
-                      <div className='detail'><span className='span'>書名:</span> {this.testData.title}</div>
-                      <div className='detail'><span className='span'>作者:</span> {this.testData.author}</div>
-                      <div className='detail'><span className='span'>isbn:</span> {this.testData.isbn}</div>
-                      <div className='detail'><span className='span'>出版社:</span> {this.testData.publisher}</div>
-                      <div className='detail'><span className='span'>出版日期:</span> {this.testData.publication_date}</div>
 
-                      <div>
-                        {
-                          this.isLike === true
-                            ?
-                            <Button icon={<SmileOutlined rotate={180} />} onClick={this.favorite}>取消最愛書籍</Button>
-                            :<Button danger icon={<SmileOutlined />} onClick={this.favorite}>加入最愛書籍</Button>
-                        }
-                      </div>
-                    </Col>
-                    <Col style={{ marginTop: '20px', padding: '20px' }}>
-                      <div className='detail'><span className='span'>簡介:</span> {this.testData.summary}</div>
-                    </Col>
-                  </Row>
-                  :
-                  <div className="spin">
-                    <Spin />
-                  </div>}
+              {data}
+
             </Row>
 
 

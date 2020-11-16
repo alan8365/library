@@ -85,6 +85,7 @@ export default connect(
                 <Row gutter={{ lg: 24, md: 12, sm: 6, xs: 3 }} justify="space-between">
 
                   <Col lg={22} md={22} sm={20} xs={20} style={{ marginTop: 15 }}>
+                    {/**
                     <Form
                       name="search"
                       initialValues={{ remember: true }}
@@ -96,7 +97,7 @@ export default connect(
                       >
                         <Input size="small" placeholder="搜尋書籍" prefix={<SearchOutlined />} />
                       </Form.Item>
-                    </Form>
+                    </Form> */}
                   </Col>
 
 

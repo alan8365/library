@@ -5,7 +5,6 @@ export function setToken(value) {
 
 // 取得token
 export function getToken() {
-    console.log(localStorage.getItem('token'))
     return localStorage.getItem('token');
 }
 
