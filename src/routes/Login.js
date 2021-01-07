@@ -48,7 +48,7 @@ export default connect(
             loading: false
         }
 
-        
+
         onFinish = (values) => {
             console.log('Success:', values);
             const {POST_Login} = this.props;
@@ -68,7 +68,7 @@ export default connect(
         render() {
             const {loading} = this.state;
 
-           
+
             return (
                 <div id="login">
                     { !loading?<Layout>
@@ -119,9 +119,7 @@ export default connect(
                             </Form.Item>
 
                             <Form.Item className="loginBtn" {...tailLayout}>
-                                <Button type="primary" htmlType="submit">
-                                    登入
-                        </Button>
+                                <Button type="primary" htmlType="submit">登入</Button>
                             </Form.Item>
                             <p>還沒有會員？ <a href='/#/register'>去註冊</a></p>
                         </Form>

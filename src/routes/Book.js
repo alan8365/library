@@ -40,9 +40,7 @@ export default connect(
       loading: false
     }
 
-    // 假資料
-    testData = {};
-    isLike = false;
+
 
 
     // 點擊喜翻
@@ -70,7 +68,7 @@ export default connect(
       const { book } = this.props;
       let data;
       if (book) {
-        data = 
+        data =
           <Row>
             <Col lg={8} md={8} sm={12} xs={24}>
               <img alt={book.detail.title} src={book.detail.img_src} style={{ width: '200px' }} />
@@ -90,7 +88,7 @@ export default connect(
               <div className='detail'><span className='span'>簡介:</span> {book.detail.summary}</div>
             </Col>
           </Row>
-        
+
       }
 
       return (

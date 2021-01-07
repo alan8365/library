@@ -5,6 +5,11 @@ export const GET_List = (page) => {
   return request.get(`/book?page=${page}`);
 };
 
+// 取得搜尋結果列表
+export const GET_Search = (payload) => {
+  return request.get(`/book?keyword=${payload.keyword}&page=${payload.page}`);
+};
+
 // 喜歡
 export const POST_Favorite = (isbn) => {
   const token = localStorage.getItem("token");

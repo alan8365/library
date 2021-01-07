@@ -3,11 +3,10 @@ import _ from "lodash";
 import { connect } from "dva";
 import {
   Space,
-  Card,
-  Row
+  Row,
+  Pagination
 } from "antd";
 import "./Index.less";
-
 import List from "../components/list";
 
 const mapStateToProps = state => {
@@ -30,29 +29,36 @@ export default connect(
 )(
   class extends Component {
     state = {
-      perPage: 1,
-      loading: false
+      loading: false,
     }
 
-    // 假資料
-    testData = [];
 
     componentDidMount = () => {
-      const {GET_List} = this.props;
-      const {perPage} = this.state;
+      const {GET_List, match} = this.props;
+      const { page } = match.params;
+
        // 取得書籍
-       GET_List( perPage, null, (loading) => this.setState({ loading }));
+       GET_List( page, null, (loading) => this.setState({ loading }));
 
     }
+
+    // 換頁觸發
+    onChange = page => {
+      const {GET_List} = this.props;
+       // 取得書籍
+       GET_List( page, null, (loading) => this.setState({ loading }));
+    };
 
 
 
 
     render() {
       const { bookList } = this.props;
-
+      let testData, cp, lp;
       if(bookList){
-        this.testData = bookList.data;
+        testData = bookList.data;
+        cp= bookList.current_page;
+        lp = bookList.last_page;
       }
 
       return (
@@ -67,13 +73,18 @@ export default connect(
 
             <Row justify="center">
             {
-              this.testData
+              testData
                 ?
                   <List
-                    allBooks={this.testData}
+                    allBooks={testData}
                   />
                 :<div></div>
             }
+            </Row>
+            <Row>
+              <div className='pagination'>
+                <Pagination defaultCurrent={cp} total={lp} onChange={this.onChange} />
+              </div>
             </Row>
 
 

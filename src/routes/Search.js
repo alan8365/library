@@ -3,26 +3,27 @@ import _ from "lodash";
 import { connect } from "dva";
 import {
   Space,
-  Card,
+  Pagination,
   Row
 } from "antd";
 import "./Search.less";
 
 import List from "../components/list";
 
+
 const mapStateToProps = state => {
   return {
-    query: _.get(state, "data.query", undefined),
+    bookList: state.book.bookList,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    POST_BasicStatistics(payload) {
-      dispatch({ type: "data/POST_BasicStatistics", payload });
+    goToRoute(payload) {
+      dispatch({ type: "global/goToRoute", payload });
     },
-    SET_Query(payload) {
-      dispatch({ type: "data/SET_Query", payload });
+    GET_Search( payload, callback, loading) {
+      dispatch({ type: "book/GET_Search", payload, callback , loading});
     },
   };
 };
@@ -32,43 +33,73 @@ export default connect(
   mapDispatchToProps
 )(
   class extends Component {
-
-    // 假資料
-    testData = [];
-
-    componentDidMount = () => {
-
+    state = {
+      loading: false,
+      keyword: ''
     }
 
 
+    componentDidMount = () => {
+      const {GET_Search} = this.props;
+      const query = new URLSearchParams(this.props.location.search);
+      let keyword = query.get('keyword');
+      let page = query.get('page');
+      let payload ={
+        page: page,
+        keyword: keyword
+      }
+      this.setState({
+        keyword: keyword
+      })
+
+       // 取得書籍
+       GET_Search( payload, null, (loading) => this.setState({ loading }));
+
+    }
+
+    // 換頁觸發
+    onChange = page => {
+      const {GET_Search} = this.props;
+      const { keyword } = this.state;
+      const { goToRoute } = this.props;
+      goToRoute(`/search?keyword=${keyword}&page=${page}`);
+    };
 
 
     render() {
-      const { query } = this.props;
-
-
+      const { bookList } = this.props;
+      let testData, cp, lp;
+      if(bookList){
+        testData = bookList.data;
+        cp= bookList.current_page;
+        lp = bookList.last_page;
+      }
 
       return (
-        <div id="search">
+        <div id="index">
           <Space direction="vertical" style={{ width: "100%" }}>
 
             <div className='banner'>
               <div className='bimg'></div>
               <h2>Search</h2>
-              <h3>搜尋書籍</h3>
-
+              <h3>搜尋解果</h3>
             </div>
 
             <Row justify="center">
-              <h4>以下是搜尋xxx的結果:</h4>
-              {
-                this.testData
-                  ?
+              <h4>以下是您的搜尋結果</h4>
+            {
+              testData
+                ?
                   <List
-                    allBooks={this.testData}
+                    allBooks={testData}
                   />
-                  : <div></div>
-              }
+                :<div></div>
+            }
+            </Row>
+            <Row>
+              <div className='pagination'>
+                <Pagination defaultCurrent={cp} total={lp} onChange={this.onChange} />
+              </div>
             </Row>
 
 

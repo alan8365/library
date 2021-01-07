@@ -1,5 +1,5 @@
 import { message } from "antd";
-import { GET_List, POST_Favorite, GET_Favorite, GET_Book } from "../services/book";
+import { GET_List, GET_Search, POST_Favorite, GET_Favorite, GET_Book } from "../services/book";
 
 export default {
   namespace: "book",
@@ -15,6 +15,27 @@ export default {
 
         // 取得書籍列表
         const response = yield call(GET_List, payload);
+        yield put({ type: "SAVE_BookList", payload: response.data });
+
+        if (loading) {
+          loading(false);
+        }
+        if (callback) {
+          callback();
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+
+    *GET_Search({ payload, callback, loading }, { put, call }) {
+      try {
+        if (loading) {
+          loading(true);
+        }
+
+        // 取得書籍列表
+        const response = yield call(GET_Search, payload);
         yield put({ type: "SAVE_BookList", payload: response.data });
 
         if (loading) {
@@ -78,7 +99,7 @@ export default {
         // 取得書籍
         const response = yield call(GET_Book, payload);
         yield put({ type: 'SAVE_Book', payload: response.data });
-  
+
         if (loading) { loading(false); }
         if (callback) { callback(); }
       } catch (err) {

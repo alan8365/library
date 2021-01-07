@@ -43,6 +43,9 @@ export default connect(
     // 搜尋表單送出
     onFinish = values => {
       console.log('Success:', values);
+
+      const { goToRoute } = this.props;
+      goToRoute(`/search?keyword=${values.keyword}&page=1`);
     };
 
     // 搜尋表單送出失敗
@@ -81,11 +84,11 @@ export default connect(
           {!loading ?
             <div>
               <Header className='header'>
-                <div className="logo"><a href='/#/index' style={{ color: 'rgb(244 177 184)' }}>圖書資訊系統</a></div>
+                <div className="logo"><a href='/#/index/1' style={{ color: 'rgb(244 177 184)' }}>圖書資訊系統</a></div>
                 <Row gutter={{ lg: 24, md: 12, sm: 6, xs: 3 }} justify="space-between">
 
                   <Col lg={22} md={22} sm={20} xs={20} style={{ marginTop: 15 }}>
-                    {/**
+                    {
                     <Form
                       name="search"
                       initialValues={{ remember: true }}
@@ -97,7 +100,8 @@ export default connect(
                       >
                         <Input size="small" placeholder="搜尋書籍" prefix={<SearchOutlined />} />
                       </Form.Item>
-                    </Form> */}
+                    </Form>
+                    }
                   </Col>
 
 
@@ -120,7 +124,7 @@ export default connect(
 
               <Footer style={{ textAlign: "center" }}>
                 Copyright © 2020 Created by xiao xuan lai
-              </Footer> 
+              </Footer>
             </div> : <div className="spin">
                         <Spin />
                       </div>}
