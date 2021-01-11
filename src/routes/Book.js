@@ -73,7 +73,7 @@ export default connect(
             <Col lg={8} md={8} sm={12} xs={24}>
               <img alt={book.detail.title} src={book.detail.img_src} style={{ width: '200px' }} />
             </Col>
-            <Col lg={16} md={16} sm={12} xs={24}>
+            <Col lg={14} md={14} sm={10} xs={22} offset={2}>
               <div className='detail'><span className='span'>書名:</span> {book.detail.title}</div>
               <div className='detail'><span className='span'>作者:</span> {book.detail.author}</div>
               <div className='detail'><span className='span'>isbn:</span> {book.detail.isbn}</div>
@@ -94,12 +94,13 @@ export default connect(
       return (
         <div id="book">
           <Space direction="vertical" style={{ width: "100%" }}>
-
-            <Row justify="center">
-
-              {data}
-
-            </Row>
+            {!loading?
+             <Row justify="center">
+                {data}
+              </Row>:<div className="spin">
+                        <Spin />
+                      </div>
+              }
 
 
 

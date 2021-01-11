@@ -4,7 +4,8 @@ import { connect } from "dva";
 import {
   Space,
   Row,
-  Pagination
+  Pagination,
+  Spin
 } from "antd";
 import "./Index.less";
 import List from "../components/list";
@@ -19,6 +20,9 @@ const mapDispatchToProps = dispatch => {
   return {
     GET_List( payload, callback, loading) {
       dispatch({ type: "book/GET_List", payload, callback , loading});
+    },
+    goToRoute(payload) {
+      dispatch({ type: "global/goToRoute", payload });
     },
   };
 };
@@ -44,9 +48,11 @@ export default connect(
 
     // 換頁觸發
     onChange = page => {
+      const { goToRoute } = this.props;
+      goToRoute(`/index/${page}`);
       const {GET_List} = this.props;
-       // 取得書籍
-       GET_List( page, null, (loading) => this.setState({ loading }));
+      // 取得書籍
+      GET_List( page, null, (loading) => this.setState({ loading }));
     };
 
 
@@ -54,11 +60,14 @@ export default connect(
 
     render() {
       const { bookList } = this.props;
-      let testData, cp, lp;
+      let testData, cp, lp, perp;
       if(bookList){
         testData = bookList.data;
         cp= bookList.current_page;
         lp = bookList.last_page;
+        perp = bookList.perp_page;
+        // 路看這 當前頁碼 總頁數
+        console.log(cp,lp)
       }
 
       return (
@@ -78,12 +87,14 @@ export default connect(
                   <List
                     allBooks={testData}
                   />
-                :<div></div>
+                :<div className="spin">
+                        <Spin />
+                      </div>
             }
             </Row>
             <Row>
               <div className='pagination'>
-                <Pagination defaultCurrent={cp} total={lp} onChange={this.onChange} />
+                <Pagination simple current={cp} total={11} onChange={this.onChange} />
               </div>
             </Row>
 

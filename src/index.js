@@ -14,7 +14,7 @@ const app = dva();
 app.model(require("./models/global").default);
 app.model(require("./models/auth").default);
 app.model(require("./models/book").default);
-
+app.model(require("./models/dashboard").default);
 // 4. Router
 app.router(require('./router').default);
 

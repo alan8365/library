@@ -7,7 +7,7 @@ export const GET_List = (page) => {
 
 // 取得搜尋結果列表
 export const GET_Search = (payload) => {
-  return request.get(`/book?keyword=${payload.keyword}&page=${payload.page}`);
+  return request.get(`/book/search?title=${payload.title}&page=${payload.page}`);
 };
 
 // 喜歡

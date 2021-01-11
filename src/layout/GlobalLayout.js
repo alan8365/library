@@ -45,7 +45,8 @@ export default connect(
       console.log('Success:', values);
 
       const { goToRoute } = this.props;
-      goToRoute(`/search?keyword=${values.keyword}&page=1`);
+      goToRoute(`/search?title=${values.keyword}&page=1`);
+
     };
 
     // 搜尋表單送出失敗
